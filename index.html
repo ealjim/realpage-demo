@@ -3,55 +3,92 @@
 <head>
     <title>RealPage Agent Demo Portal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f6f8;
             margin: 0;
+            color: #333;
         }
+
         header {
-            background-color: #002D62;
-            color: white;
+            background-color: #5B6670;
             padding: 20px;
             text-align: center;
         }
+
+        header img {
+            max-height: 50px;
+        }
+
+        header p {
+            color: white;
+            margin-top: 10px;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
         .container {
             padding: 30px;
+            max-width: 1100px;
+            margin: auto;
         }
+
         .card {
             background: white;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
         }
+
+        .card h2 {
+            color: #5B6670;
+            margin-top: 0;
+        }
+
         .button {
-            background-color: #0073e6;
+            background-color: #5B6670;
             color: white;
-            padding: 12px 20px;
+            padding: 12px 22px;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 6px;
             display: inline-block;
-            margin-top: 10px;
+            margin-top: 15px;
+            font-weight: bold;
         }
+
         .button:hover {
-            background-color: #005bb5;
+            background-color: #4a545d;
         }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: #888;
+        }
+
     </style>
 </head>
 
 <body>
 
 <header>
-    <h1>RealPage Resident Support Portal</h1>
-    <p>Agent Quick Access & Demo Experience</p>
+    <img src="Realpage.png" alt="RealPage Logo">
+    <p>Resident Support & Agent Demo Portal</p>
 </header>
 
 <div class="container">
 
     <div class="card">
         <h2>Launch RealPage Website</h2>
-        <p>Click below to open the official RealPage site in a new tab.</p>
+        <p>Click below to open the official RealPage website in a new tab.</p>
         <a href="https://www.realpage.com" target="_blank" class="button">
             Open RealPage.com
         </a>
@@ -60,20 +97,24 @@
     <div class="card">
         <h2>Resident Support Knowledge</h2>
         <ul>
-            <li>Online rent payments available via Resident Portal (LOFT)</li>
-            <li>Maintenance requests can be submitted online</li>
-            <li>Revenue Management uses AI-based pricing optimization</li>
-            <li>OneSite manages leasing, accounting, and maintenance workflows</li>
+            <li>Residents can pay rent securely through the Resident Portal (LOFT).</li>
+            <li>Maintenance requests can be submitted and tracked online.</li>
+            <li>OneSite centralizes leasing, accounting, and service workflows.</li>
+            <li>AI-powered Revenue Management optimizes rental pricing.</li>
         </ul>
     </div>
 
     <div class="card">
-        <h2>Demo Call Scenario</h2>
-        <p><strong>Caller:</strong> Resident asking about late fee and stove maintenance</p>
-        <p><strong>Agent Action:</strong> Verify lease → Escalate maintenance → Offer payment plan</p>
+        <h2>Inbound Call Demo Scenario</h2>
+        <p><strong>Caller:</strong> Resident inquiring about late fee and stove maintenance issue.</p>
+        <p><strong>Agent Flow:</strong> Verify lease → Escalate maintenance → Offer payment plan → Auto-summary via Copilot.</p>
     </div>
 
 </div>
+
+<footer>
+    Demo environment for Genesys Agent Copilot presentation.
+</footer>
 
 </body>
 </html>

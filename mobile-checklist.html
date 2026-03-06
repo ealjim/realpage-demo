@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RealPage - Resident Checklist (Demo)</title>
+  <style>
+    :root{
+      --rp-gray: #5B6670;
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text: #1f2a33;
+      --muted: #6b7785;
+      --shadow: 0 6px 18px rgba(0,0,0,0.08);
+      --radius: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* Page wrapper – looks good inside Genesys Web Page component */
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    /* Phone-like frame (optional but matches your screenshot vibe) */
+    .phone{
+      background: #111;
+      border-radius: 34px;
+      padding: 14px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .screen{
+      background: var(--bg);
+      border-radius: 26px;
+      overflow: hidden;
+      min-height: 720px;
+      position: relative;
+    }
+
+    /* Top “hero” image area */
+    .hero{
+      height: 170px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.05)),
+        url("https://images.unsplash.com/photo-1520975958225-4f67c1f9b487?auto=format&fit=crop&w=1200&q=60");
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    /* Status / notch bar */
+    .notch{
+      position:absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 18px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.55);
+    }
+
+    /* Brand header */
+    .brandbar{
+      position:absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      gap: 10px;
+      pointer-events:none;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      pointer-events:auto;
+      background: rgba(255,255,255,0.92);
+      border-radius: 999px;
+      padding: 8px 12px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    }
+    .brand img{
+      height: 20px;
+      width: auto;
+      display:block;
+    }
+    .brand span{
+      font-size: 12px;
+      color: var(--rp-gray);
+      font-weight: 700;
+      letter-spacing: .2px;
+      white-space: nowrap;
+    }
+    .icons{
+      display:flex;
+      gap: 8px;
+      pointer-events:auto;
+    }
+    .iconbtn{
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(255,255,255,0.92);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+      cursor: pointer;
+    }
+    .iconbtn svg{ width: 18px; height: 18px; fill: var(--rp-gray); }
+
+    /* Content area */
+    .content{
+      padding: 16px 14px 18px 14px;
+      margin-top: -34px;
+    }
+
+    .hello{
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 14px 14px;
+      box-shadow: var(--shadow);
+      margin-bottom: 12px;
+    }
+    .hello h1{
+      margin:0;
+      font-size: 18px;
+      line-height: 1.15;
+    }
+    .sub{
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      flex-wrap: wrap;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(91,102,112,0.10);
+      color: var(--rp-gray);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* Tabs */
+    .tabs{
+      display:flex;
+      gap: 10px;
+      margin: 12px 0 12px 0;
+      padding: 0 2px;
+      overflow-x:auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab{
+      flex: 0 0 auto;
+      border: 1px solid rgba(91,102,112,0.22);
+      background: #fff;
+      color: var(--rp-gray);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor:pointer;
+      white-space: nowrap;
+    }
+    .tab.active{
+      background: var(--rp-gray);
+      color: #fff;
+      border-color: var(--rp-gray);
+    }
+
+    /* Cards */
+    .card{
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .card h2{
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      color: var(--rp-gray);
+      letter-spacing: .2px;
+    }
+    .card p{
+      margin: 0 0 10px 0;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    /* Checklist progress */
+    .progressRow{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .progress{
+      flex:1;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(91,102,112,0.14);
+      overflow:hidden;
+    }
+    .bar{
+      height: 100%;
+      width: 18%;
+      background: var(--rp-gray);
+      border-radius: 999px;
+    }
+    .progText{
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* To-do items */
+    .todo{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      padding: 12px 0;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .todo:first-of-type{ border-top:none; padding-top: 0; }
+    .check{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      border: 2px solid rgba(91,102,112,0.35);
+      background: #fff;
+      flex: 0 0 auto;
+    }
+    .todo .title{
+      font-size: 13px;
+      font-weight: 700;
+      margin: 0;
+    }
+    .todo .desc{
+      margin: 5px 0 0 0;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+    .meta{
+      margin-top: 8px;
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items:center;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(91,102,112,0.10);
+      color: var(--rp-gray);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .ctaRow{
+      margin-top: 10px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn{
+      border:none;
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor:pointer;
+    }
+    .btn.primary{
+      background: var(--rp-gray);
+      color: #fff;
+    }
+    .btn.ghost{
+      background: rgba(91,102,112,0.10);
+      color: var(--rp-gray);
+    }
+
+    /* Footer hint */
+    .hint{
+      text-align:center;
+      color: var(--muted);
+      font-size: 11px;
+      padding: 10px 0 2px 0;
+    }
+
+    /* Make it usable if Genesys iframe is narrow */
+    @media (max-width: 420px){
+      .wrap{ padding: 10px; }
+      .phone{ padding: 10px; }
+      .screen{ min-height: 690px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="phone">
+      <div class="screen">
+
+        <div class="hero">
+          <div class="notch"></div>
+
+          <div class="brandbar">
+            <div class="brand" title="RealPage Demo">
+              <img src="Realpage.png" alt="RealPage Logo" />
+              <span>Resident Experience</span>
+            </div>
+
+            <div class="icons">
+              <button class="iconbtn" title="Messages">
+                <svg viewBox="0 0 24 24"><path d="M20 2H4C2.9 2 2 2.9 2 4v14l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+              </button>
+              <button class="iconbtn" title="Profile">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="content">
+
+          <div class="hello">
+            <h1>Hi <span id="residentName">Tanvir</span>!</h1>
+            <div class="sub">
+              <span id="communityName">Winter Creek</span>
+              <span>•</span>
+              <span class="pill">Checklist</span>
+            </div>
+          </div>
+
+          <div class="tabs" role="tablist" aria-label="Sections">
+            <button class="tab active" type="button">Checklist</button>
+            <button class="tab" type="button">Marketplace</button>
+            <button class="tab" type="button">My Services</button>
+          </div>
+
+          <div class="card">
+            <h2>Welcome to <span id="welcomeCommunity">Winter Creek</span>!</h2>
+            <p>Please reference this moving checklist throughout your move.</p>
+
+            <div class="progressRow">
+              <div class="progress" aria-label="progress">
+                <div class="bar" id="progressBar"></div>
+              </div>
+              <div class="progText"><span id="progressText">1 of 5</span> tasks complete</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>To-do</h2>
+
+            <div class="todo">
+              <div class="check"></div>
+              <div>
+                <p class="title">Choose your internet plan</p>
+                <p class="desc">Find your best option today</p>
+                <div class="meta">
+                  <span class="badge">⏱ 55 days overdue</span>
+                </div>
+                <div class="ctaRow">
+                  <button class="btn primary" type="button">Start</button>
+                  <button class="btn ghost" type="button">I don’t need this</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="todo">
+              <div class="check"></div>
+              <div>
+                <p class="title">First-time online payments</p>
+                <p class="desc">Make or schedule your first payment</p>
+                <div class="meta">
+                  <span class="badge">⏱ 55 days overdue</span>
+                </div>
+                <div class="ctaRow">
+                  <button class="btn primary" type="button">Pay now</button>
+                  <button class="btn ghost" type="button">Set reminder</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="todo">
+              <div class="check"></div>
+              <div>
+                <p class="title">Confirm move-in details</p>
+                <p class="desc">Review keys, access codes, and office hours</p>
+                <div class="meta">
+                  <span class="badge">📍 Needs confirmation</span>
+                </div>
+                <div class="ctaRow">
+                  <button class="btn primary" type="button">Review</button>
+                  <button class="btn ghost" type="button">Later</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="hint">
+            Demo UI for Genesys Script + Agent Copilot (RealPage-branded)
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Optional: allow basic personalization via URL params
+    // Example:
+    //   mobile-checklist.html?name=Luis&community=Lakewood%20Gardens&done=1&total=5
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name");
+    const community = params.get("community");
+    const done = parseInt(params.get("done") || "1", 10);
+    const total = parseInt(params.get("total") || "5", 10);
+
+    if (name) document.getElementById("residentName").textContent = name;
+    if (community) {
+      document.getElementById("communityName").textContent = community;
+      document.getElementById("welcomeCommunity").textContent = community;
+    }
+
+    const pct = Math.max(0, Math.min(100, Math.round((done / total) * 100)));
+    document.getElementById("progressText").textContent = `${done} of ${total}`;
+    document.getElementById("progressBar").style.width = pct + "%";
+  </script>
+</body>
+</html>
